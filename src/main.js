@@ -66,7 +66,25 @@
   const defaultCameraPos = new THREE.Vector3(0, 120, 280);
   camera.position.copy(defaultCameraPos);
 
-  const controls = new THREE.OrbitControls(camera, renderer.domElement);
+  // OrbitControls compatibility layer (THREE.OrbitControls, window.OrbitControls, or THREE.Addons.OrbitControls)
+  let OrbitControlsClass =
+    (typeof THREE !== 'undefined' && THREE.OrbitControls) ||
+    (typeof window !== 'undefined' && window.OrbitControls) ||
+    (typeof THREE !== 'undefined' && THREE.Addons && THREE.Addons.OrbitControls) ||
+    null;
+  if (OrbitControlsClass && typeof OrbitControlsClass !== 'function') {
+    OrbitControlsClass = OrbitControlsClass.OrbitControls || OrbitControlsClass.default || null;
+  }
+  const controls = (typeof OrbitControlsClass === 'function')
+    ? new OrbitControlsClass(camera, renderer.domElement)
+    : {
+        target: new THREE.Vector3(),
+        update: () => {},
+        enableDamping: false,
+        dampingFactor: 0,
+        maxDistance: Infinity,
+        minDistance: 0,
+      };
   controls.enableDamping = true;
   controls.dampingFactor = 0.05;
   controls.maxDistance = 1500;
