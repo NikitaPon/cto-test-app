@@ -35,6 +35,8 @@
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   container.appendChild(renderer.domElement);
+  // Improve input handling on touch devices and some browsers
+  renderer.domElement.style.touchAction = 'none';
 
   // Label renderer (CSS2D)
   const CSS2DRendererClass =
@@ -90,6 +92,11 @@
   controls.maxDistance = 1500;
   controls.minDistance = 5;
   controls.target.set(0, 0, 0);
+  if (typeof controls.listenToKeyEvents === 'function') {
+    controls.listenToKeyEvents(window);
+    controls.keys = { LEFT: 'ArrowLeft', UP: 'ArrowUp', RIGHT: 'ArrowRight', BOTTOM: 'ArrowDown' };
+    controls.keyPanSpeed = 7.0;
+  }
 
   // Lights
   const ambient = new THREE.AmbientLight(0x404050, 0.4);

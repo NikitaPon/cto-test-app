@@ -5,10 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Интерактивная 3D Солнечная система</title>
   <link rel="stylesheet" href="src/styles.css" />
-  <!-- Three.js core and helpers from CDN -->
+  <!-- Three.js core from CDN -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/controls/OrbitControls.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/renderers/CSS2DRenderer.js"></script>
+  <!-- Load addons as ES modules and expose them to window for non-module usage -->
+  <script type="module">
+    import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js';
+    import { CSS2DRenderer, CSS2DObject } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/renderers/CSS2DRenderer.js';
+    window.OrbitControls = OrbitControls;
+    window.CSS2DRenderer = CSS2DRenderer;
+    window.CSS2DObject = CSS2DObject;
+  </script>
 </head>
 <body>
   <div id="canvas-container"></div>
@@ -37,6 +43,6 @@
 
   <div id="info">Кликните по планете, чтобы увидеть информацию. Колесо мыши — масштаб, ЛКМ — вращение, ПКМ/Shift — панорама.</div>
 
-  <script src="src/main.js"></script>
+  <script defer src="src/main.js"></script>
 </body>
 </html>
