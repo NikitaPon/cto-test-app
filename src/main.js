@@ -37,8 +37,24 @@
   container.appendChild(renderer.domElement);
 
   // Label renderer (CSS2D)
-  const labelRenderer = new THREE.CSS2DRenderer();
-  labelRenderer.setSize(window.innerWidth, window.innerHeight);
+  const CSS2DRendererClass =
+    (typeof THREE !== 'undefined' && THREE.CSS2DRenderer) ||
+    (typeof window !== 'undefined' && window.CSS2DRenderer) ||
+    null;
+  const CSS2DObjectClass =
+    (typeof THREE !== 'undefined' && THREE.CSS2DObject) ||
+    (typeof window !== 'undefined' && window.CSS2DObject) ||
+    null;
+
+  const labelRenderer = (typeof CSS2DRendererClass === 'function')
+    ? new CSS2DRendererClass()
+    : {
+        domElement: document.createElement('div'),
+        setSize: () => {},
+        render: () => {}
+      };
+
+  labelRenderer.setSize && labelRenderer.setSize(window.innerWidth, window.innerHeight);
   labelRenderer.domElement.style.position = 'fixed';
   labelRenderer.domElement.style.left = '0';
   labelRenderer.domElement.style.top = '0';
@@ -397,8 +413,13 @@
     const div = document.createElement('div');
     div.className = 'label';
     div.textContent = text;
-    const label = new THREE.CSS2DObject(div);
-    return label;
+    if (typeof CSS2DObjectClass === 'function') {
+      return new CSS2DObjectClass(div);
+    } else {
+      const placeholder = new THREE.Object3D();
+      placeholder.visible = false;
+      return placeholder;
+    }
   }
 
   function addStars(targetScene, count = 1000, radius = 1000, color = 0xffffff) {
