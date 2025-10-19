@@ -1,0 +1,104 @@
+/* Базовые стили */
+:root {
+  --bg0: #03040a;
+  --bg1: #0a0f24;
+  --fg: #e6ecff;
+  --muted: #9fb3ff;
+  --accent: #5ea2ff;
+  --accent-2: #ffc857;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--fg);
+  background: radial-gradient(1200px 800px at 70% 30%, var(--bg1) 0%, var(--bg0) 60%);
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Inter, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, sans-serif;
+  user-select: none;
+  overflow: hidden;
+}
+
+#canvas-container {
+  position: fixed;
+  inset: 0;
+}
+
+/* UI */
+#ui {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 16px;
+  z-index: 10;
+}
+
+.panel {
+  background: rgba(5, 10, 25, 0.6);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 12px;
+  min-width: 320px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+}
+
+.panel .row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.panel label { color: var(--muted); font-size: 13px; }
+.panel .checkbox { display: flex; align-items: center; gap: 6px; }
+
+input[type="range"] {
+  width: 100%;
+}
+
+button, select {
+  background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.12);
+  color: var(--fg);
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  border-color: rgba(255,255,255,0.22);
+}
+
+#info {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(0,0,0,0.45);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: var(--muted);
+  font-size: 12px;
+  z-index: 9;
+}
+
+/* Метки планет */
+.label {
+  color: #dfe7ff;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+/* CSS2DRenderer поверх, но клики забирает только канвас WebGL */
+.label-container {
+  pointer-events: none;
+}
